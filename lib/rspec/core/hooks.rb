@@ -50,6 +50,12 @@ module RSpec
       end
 
       class HookCollection < Array
+        if new.reject{}.class != self
+          def reject(&block)
+            self.dup.tap{|a| a.reject! &block }
+          end
+        end
+
         def find_hooks_for(group)
           dup.reject {|hook| !hook.options_apply?(group)}
         end
